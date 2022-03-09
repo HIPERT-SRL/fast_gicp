@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.10.0)
 project(fast_gicp)
 
-option(BUILD_VGICP_CUDA "Build GPU-powered VGICP" OFF)
+option(BUILD_VGICP_CUDA "Build GPU-powered VGICP" ON)
 option(BUILD_apps "Build application programs" ON)
-option(BUILD_test "Build test programs" OFF)
+option(BUILD_test "Build test programs" ON)
 option(BUILD_PYTHON_BINDINGS "Build python bindings" OFF)
 
 if(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "aarch64")
@@ -15,7 +15,7 @@ endif()
 
 set(CMAKE_BUILD_TYPE "Release")
 
-find_package(PCL REQUIRED)
+find_package(PCL 1.8 REQUIRED)
 find_package(Eigen3 REQUIRED)
 
 if(NOT BUILD_PYTHON_BINDINGS)
@@ -116,7 +116,7 @@ if(BUILD_VGICP_CUDA)
   )
   target_include_directories(fast_vgicp_cuda PRIVATE
     include
-    thirdparty/Eigen
+    ${EIGEN3_INCLUDE_DIR}
     thirdparty/nvbio
     ${catkin_INCLUDE_DIRS}
   )

@@ -44,8 +44,8 @@ public:
       }
     }
 
-    auto target = pcl::make_shared<pcl::PointCloud<pcl::PointXYZ>>();
-    auto source = pcl::make_shared<pcl::PointCloud<pcl::PointXYZ>>();
+    auto target = boost::make_shared<pcl::PointCloud<pcl::PointXYZ>>();
+    auto source = boost::make_shared<pcl::PointCloud<pcl::PointXYZ>>();
     pcl::io::loadPCDFile(data_directory + "/251370668.pcd", *target);
     pcl::io::loadPCDFile(data_directory + "/251371071.pcd", *source);
     if (target->empty() || source->empty()) {
@@ -55,7 +55,7 @@ public:
     pcl::VoxelGrid<pcl::PointXYZ> voxelgrid;
     voxelgrid.setLeafSize(0.2, 0.2, 0.2);
 
-    auto filtered = pcl::make_shared<pcl::PointCloud<pcl::PointXYZ>>();
+    auto filtered = boost::make_shared<pcl::PointCloud<pcl::PointXYZ>>();
     voxelgrid.setInputCloud(target);
     voxelgrid.filter(*filtered);
     filtered.swap(target);
@@ -101,23 +101,23 @@ public:
     int num_threads = std::get<1>(GetParam()) ? 4 : 1;
 
     if (method == "GICP") {
-      auto gicp = pcl::make_shared<fast_gicp::FastGICP<pcl::PointXYZ, pcl::PointXYZ>>();
+      auto gicp = boost::make_shared<fast_gicp::FastGICP<pcl::PointXYZ, pcl::PointXYZ>>();
       gicp->setNumThreads(num_threads);
       gicp->swapSourceAndTarget();
       return gicp;
     } else if (method == "VGICP") {
-      auto vgicp = pcl::make_shared<fast_gicp::FastVGICP<pcl::PointXYZ, pcl::PointXYZ>>();
+      auto vgicp = boost::make_shared<fast_gicp::FastVGICP<pcl::PointXYZ, pcl::PointXYZ>>();
       vgicp->setNumThreads(num_threads);
       return vgicp;
     } else if (method == "VGICP_CUDA") {
 #ifdef USE_VGICP_CUDA
-      auto vgicp = pcl::make_shared<fast_gicp::FastVGICPCuda<pcl::PointXYZ, pcl::PointXYZ>>();
+      auto vgicp = boost::make_shared<fast_gicp::FastVGICPCuda<pcl::PointXYZ, pcl::PointXYZ>>();
       return vgicp;
 #endif
       return nullptr;
     } else if (method == "NDT_CUDA") {
 #ifdef USE_VGICP_CUDA
-      auto ndt = pcl::make_shared<fast_gicp::NDTCuda<pcl::PointXYZ, pcl::PointXYZ>>();
+      auto ndt = boost::make_shared<fast_gicp::NDTCuda<pcl::PointXYZ, pcl::PointXYZ>>();
       return ndt;
 #endif
       return nullptr;
@@ -138,7 +138,7 @@ public:
   }
 };
 
-INSTANTIATE_TEST_SUITE_P(AlignmentTest2, AlignmentTest, testing::Combine(testing::Values("GICP", "VGICP", "VGICP_CUDA", "NDT_CUDA"), testing::Bool()), [](const auto& info) {
+INSTANTIATE_TEST_CASE_P(AlignmentTest2, AlignmentTest, testing::Combine(testing::Values("GICP", "VGICP", "VGICP_CUDA", "NDT_CUDA"), testing::Bool()), [](const auto& info) {
   std::stringstream sst;
   sst << std::get<0>(info.param) << (std::get<1>(info.param) ? "_MT" : "_ST");
   return sst.str();
@@ -155,7 +155,7 @@ TEST_P(AlignmentTest, test) {
   }
 
   // forward test
-  auto aligned = pcl::make_shared<pcl::PointCloud<pcl::PointXYZ>>();
+  auto aligned = boost::make_shared<pcl::PointCloud<pcl::PointXYZ>>();
   reg->setInputTarget(target);
   reg->setInputSource(source);
   reg->align(*aligned);
@@ -201,7 +201,7 @@ TEST_P(AlignmentTest, test) {
 }
 
 int main(int argc, char** argv) {
-  GICPTestBase::data_directory = argv[1];
+  GICPTestBase::data_directory = argv[2];
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
