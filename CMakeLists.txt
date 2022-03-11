@@ -37,7 +37,8 @@ target_link_libraries(fast_gicp
   ${PCL_LIBRARIES}
 )
 target_include_directories(fast_gicp PUBLIC
-  include
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
   ${PCL_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIR}
 )
@@ -60,7 +61,8 @@ cuda_add_library(fast_vgicp_cuda SHARED
   src/fast_gicp/cuda/ndt_compute_derivatives.cu
 )
 target_include_directories(fast_vgicp_cuda PRIVATE
-  include
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
   ${EIGEN3_INCLUDE_DIR}
   thirdparty/nvbio
 )
