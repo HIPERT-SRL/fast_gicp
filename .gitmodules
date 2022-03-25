@@ -1,3 +1,0 @@
-[submodule "thirdparty/nvbio"]
-	path = thirdparty/nvbio
-	url = https://github.com/NVlabs/nvbio.git
