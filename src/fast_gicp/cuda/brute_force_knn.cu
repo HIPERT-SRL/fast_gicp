@@ -6,8 +6,8 @@
 #include <thrust/device_vector.h>
 #include <thrust/iterator/zip_iterator.h>
 
-#include <nvbio/basic/vector_view.h>
-#include <nvbio/basic/priority_queue.h>
+#include <fast_gicp/gicp/nvbio/vector_view.h>
+#include <fast_gicp/gicp/nvbio/priority_queue.h>
 
 namespace fast_gicp {
   namespace cuda {

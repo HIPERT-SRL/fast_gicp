@@ -64,7 +64,6 @@ target_include_directories(fast_vgicp_cuda PRIVATE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
   ${EIGEN3_INCLUDE_DIR}
-  thirdparty/nvbio
 )
 target_link_libraries(fast_vgicp_cuda
 )

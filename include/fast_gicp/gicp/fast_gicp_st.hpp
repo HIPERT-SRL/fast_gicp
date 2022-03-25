@@ -1,5 +1,5 @@
-#ifndef FAST_GICP_FAST_GICP_ST_HPP
-#define FAST_GICP_FAST_GICP_ST_HPP
+#ifndef INCLUDE_FAST_GICP_GICP_FAST_GICP_ST
+#define INCLUDE_FAST_GICP_GICP_FAST_GICP_ST
 
 #include <Eigen/Core>
 #include <Eigen/Geometry>
@@ -65,4 +65,4 @@ private:
 };
 }  // namespace fast_gicp
 
-#endif
+#endif /* INCLUDE_FAST_GICP_GICP_FAST_GICP_ST */
